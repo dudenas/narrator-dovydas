@@ -44,7 +44,7 @@ while True:
         print("Failed to capture image")
 
     # Wait for 2 seconds
-    time.sleep(2)
+    time.sleep(1)
 
 # Release the camera and close all windows
 cap.release()
