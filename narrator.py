@@ -11,6 +11,9 @@ client = OpenAI()
 
 set_api_key(os.environ.get("ELEVENLABS_API_KEY"))
 
+print("test")
+
+
 def encode_image(image_path):
     while True:
         try:
@@ -27,7 +30,8 @@ def encode_image(image_path):
 def play_audio(text):
     audio = generate(text, voice=os.environ.get("ELEVENLABS_VOICE_ID"))
 
-    unique_id = base64.urlsafe_b64encode(os.urandom(30)).decode("utf-8").rstrip("=")
+    unique_id = base64.urlsafe_b64encode(
+        os.urandom(30)).decode("utf-8").rstrip("=")
     dir_path = os.path.join("narration", unique_id)
     os.makedirs(dir_path, exist_ok=True)
     file_path = os.path.join(dir_path, "audio.wav")
