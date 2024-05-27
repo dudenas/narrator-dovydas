@@ -101,12 +101,14 @@ class Narrator:
             print(analysis)
 
             play_audio(analysis)
+            print("🎵 David has spoken!")
 
             self.script = self.script + \
                 [{"role": "assistant", "content": analysis}]
 
             # wait for 5 seconds
-            time.sleep(5)
+            # time.sleep(5)
+            self.is_running = False
 
 
 def main():
