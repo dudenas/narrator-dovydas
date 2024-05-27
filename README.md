@@ -20,6 +20,14 @@ Then, install the dependencies:
 
 Make a [Replicate](https://replicate.com), [OpenAI](https://beta.openai.com/), and [ElevenLabs](https://elevenlabs.io) account and set your tokens:
 
+## Run it!
+
+In on terminal, run the webcam capture:
+```bash
+python capture.py
+```
+In another terminal, run the narrator:
+
 ```
 export OPENAI_API_KEY=<token>
 export ELEVENLABS_API_KEY=<eleven-token>
@@ -31,15 +39,7 @@ Make a new voice in Eleven and get the voice id of that voice using their [get v
 export ELEVENLABS_VOICE_ID=<voice-id>
 ```
 
-## Run it!
-
-In on terminal, run the webcam capture:
 ```bash
-python capture.py
-```
-In another terminal, run the narrator:
-
-```bash
-python narrator.py
+sudo -E python narrator.py
 ```
 

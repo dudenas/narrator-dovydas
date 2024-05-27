@@ -7,11 +7,11 @@ import simpleaudio as sa
 import errno
 from elevenlabs import generate, play, set_api_key, voices
 
+import keyboard
+
 client = OpenAI()
 
 set_api_key(os.environ.get("ELEVENLABS_API_KEY"))
-
-print("test")
 
 
 def encode_image(image_path):
@@ -77,29 +77,50 @@ def analyze_image(base64_image, script):
     return response_text
 
 
+class Narrator:
+    def __init__(self):
+        self.is_running = False
+        self.script = []
+
+    def toggle(self):
+        self.is_running = not self.is_running
+
+    def run(self):
+        while self.is_running:
+            # path to your image
+            image_path = os.path.join(os.getcwd(), "./frames/frame.jpg")
+
+            # getting the base64 encoding
+            base64_image = encode_image(image_path)
+
+            # analyze posture
+            print("👀 David is watching...")
+            analysis = analyze_image(base64_image, script=self.script)
+
+            print("🎙️ David says:")
+            print(analysis)
+
+            play_audio(analysis)
+
+            self.script = self.script + \
+                [{"role": "assistant", "content": analysis}]
+
+            # wait for 5 seconds
+            time.sleep(5)
+
+
 def main():
-    script = []
 
+    # start the following if space is pressed. if space is pressed again stop the following
     while True:
-        # path to your image
-        image_path = os.path.join(os.getcwd(), "./frames/frame.jpg")
+        narrator = Narrator()
 
-        # getting the base64 encoding
-        base64_image = encode_image(image_path)
+        # Bind space key to the toggle function
+        keyboard.add_hotkey('space', narrator.toggle)
 
-        # analyze posture
-        print("👀 David is watching...")
-        analysis = analyze_image(base64_image, script=script)
-
-        print("🎙️ David says:")
-        print(analysis)
-
-        play_audio(analysis)
-
-        script = script + [{"role": "assistant", "content": analysis}]
-
-        # wait for 5 seconds
-        time.sleep(5)
+        while True:
+            if narrator.is_running:
+                narrator.run()
 
 
 if __name__ == "__main__":
